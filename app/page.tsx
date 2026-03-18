@@ -12,7 +12,7 @@ export default async function Home() {
   const data = await getDay();
   return (
     <main className="p-8 h-screen flex items-center flex-col flex-center justify-center">
-      <NextTreffpunkt treffpunkt={data[0]} nextTreffpunkt={data[0]} />
+      <NextTreffpunkt treffpunkt={data[0]} nextTreffpunkt={data[1]} />
     </main>
   );
 }
