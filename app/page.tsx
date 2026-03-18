@@ -1,9 +1,21 @@
+import { cookies } from "next/headers";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+import { logout } from "./actions/ahv";
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const AHV = cookieStore.get('AHV')?.value;
+  console.log("rerendering", Math.random());
+  if (!AHV) return redirect('/login');
+  console.log("ahv is ", AHV);
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+        <form action={logout}>
+          <button type="submit">logout</button>
+        </form>
+        <h1>{AHV}</h1>
         <Image
           className="dark:invert"
           src="/next.svg"
