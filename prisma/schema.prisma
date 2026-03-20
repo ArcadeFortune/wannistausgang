@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Tenue {
+  A
+  B
+  C
+  Sport
+  Zivil
+}
+
+enum Packung {
+  GTE
+  Weapon
+  KaRuSa
+  TaRuSa
+  EffTasche
+}
+
+model Treffpunkt {
+  id    Int     @id @default(autoincrement())
+  starttime DateTime @default(now())
+  endtime DateTime @default(now())
+  activity String @default("")
+  place String @default("")
+  tenue Tenue? @default(C)
+  packung Packung[] @default([])
+  responsibility String @default("")
+  message  String?
+}

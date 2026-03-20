@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Treffpunkt } from "../types";
+import { Treffpunkt } from "../generated/prisma/client";
+import { pad } from "../lib/utils";
 
 interface NextTreffpunktProps {
   treffpunkt: Treffpunkt;
@@ -12,7 +13,6 @@ function parseTime(timeDiff: number): { h: string, m: string, s: string; } {
   const h = Math.floor(diffInSeconds / 3600);
   const m = Math.floor((diffInSeconds % 3600) / 60);
   const s = diffInSeconds % 60;
-  const pad = (n: number) => String(n).padStart(2, "0");
   return { h: pad(h), m: pad(m), s: pad(s) };
 }
 
@@ -42,10 +42,10 @@ export default function NextTreffpunkt({ treffpunkt, nextTreffpunkt }: NextTreff
         Nächster Treffpunkt ist in
       </div>
       <div className="font-bold">
-        {formatNextTreffpunkt(now, treffpunkt.time)}, {treffpunkt.place}
+        {formatNextTreffpunkt(now, treffpunkt.startime)}, {treffpunkt.place}
       </div>
       <div>
-        Dann {formatNextNextTreffpunkt(treffpunkt.time, nextTreffpunkt.time)} später im {nextTreffpunkt.place}
+        Dann {formatNextNextTreffpunkt(treffpunkt.startime, nextTreffpunkt.startime)} später im {nextTreffpunkt.place}
       </div>
     </>
   );
