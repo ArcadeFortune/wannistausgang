@@ -32,10 +32,10 @@ model Treffpunkt {
   id    Int     @id @default(autoincrement())
   starttime DateTime @default(now())
   endtime DateTime @default(now())
-  activity String @default("")
-  place String @default("")
+  activity String
+  place String
   tenue Tenue? @default(C)
   packung Packung[] @default([])
-  responsibility String @default("")
+  responsibility String
   message  String?
 }

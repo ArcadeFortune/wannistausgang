@@ -1,4 +1,4 @@
-import { editTreffpunkt, getDay } from "@/app/actions/timetable";
+import { getDay } from "@/app/actions/timetable";
 import TreffpunktRow from "./treffpunkt-row";
 import TreffpunktAdd from "./treffpunkt-add";
 
@@ -10,8 +10,6 @@ export default async function Tagesbefehl({ params }: { params: Promise<{ date: 
   return (
     <>
       <h1>tagesbefehl für: {date} | Version 1.0 </h1>
-
-      <form action={editTreffpunkt} id="treffpunkt-edit"></form>
       <table>
         <thead>
           <tr>

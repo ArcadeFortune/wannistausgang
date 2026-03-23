@@ -3,16 +3,17 @@
 import { editTreffpunkt } from "@/app/actions/timetable";
 import { Treffpunkt } from "@/app/generated/prisma/client";
 import { pad } from "@/app/lib/utils";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import TreffpunktInputs from "./treffpunkt-inputs";
 
 export default function TreffpunktRow({ t }: { t: Treffpunkt; }) {
+  const [state, formAction] = useActionState(editTreffpunkt, { error: null });
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) return (
     <tr>
       <td colSpan={5}>
-        <form action={editTreffpunkt} onSubmit={() => setIsEditing(false)}>
+        <form action={formAction} onSubmit={() => setIsEditing(false)}>
           {pad(t.starttime.getHours())}{pad(t.starttime.getMinutes())}-{pad(t.endtime.getHours())}{pad(t.endtime.getMinutes())}
           <TreffpunktInputs t={t} />
           <button type="submit">Save</button>

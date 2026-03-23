@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { Treffpunkt } from "../generated/prisma/client";
 import { prisma } from "../lib/primsa";
+import { ServerActionResult } from "../types";
 
 export async function getDay(date: Date = new Date()): Promise<Treffpunkt[]> {
   const todayMorning = date;
@@ -22,24 +23,32 @@ export async function getDay(date: Date = new Date()): Promise<Treffpunkt[]> {
   return treffpunkt;
 }
 
-export async function editTreffpunkt(newTreffpunkt: FormData) {
-  const id = newTreffpunkt.get("id") as string | null;
+/**
+ * Edits or create a new Treffpunkt, depending on whether the ID is defined.
+ * @param newTreffpunkt type Treffpunkt
+ */
+export async function editTreffpunkt(prevState: ServerActionResult, formData: FormData): Promise<ServerActionResult> {
+  const id = formData.get("id") as string | null;
+
+  const activity = formData.get("activity");
+  const place = formData.get("place");
+  const responsibility = formData.get("responsibility");
+
+  const isString = (i: any): i is string => typeof i === "string" && i.trim().length > 0;
+
+  if (!isString(activity) || !isString(place) || !isString(responsibility)) {
+    return { error: "Incomplete Entity" };
+  }
 
   const data = {
     // starttime,
     // endtime,
-    activity: newTreffpunkt.get("activity") as string | null ?? undefined,
-    place: newTreffpunkt.get("place") as string | null ?? undefined,
-    responsibility: newTreffpunkt.get("responsibility") as string | null ??
-      undefined,
+    activity,
+    place,
+    responsibility,
     // message: message ,
-    // packung: {
-    //   connectOrCreate: packung.map((name) => ({
-    //     where: { name },
-    //     create: { name },
-    //   })),
-    // },
   };
+
   console.log("data --->", data);
 
   const record = id
@@ -50,4 +59,6 @@ export async function editTreffpunkt(newTreffpunkt: FormData) {
     : await prisma.treffpunkt.create({ data });
 
   revalidatePath("/");
+
+  return { error: null };
 }

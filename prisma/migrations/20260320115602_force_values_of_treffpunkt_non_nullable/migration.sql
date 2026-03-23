@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Treffpunkt" ALTER COLUMN "place" DROP DEFAULT,
+ALTER COLUMN "responsibility" DROP DEFAULT,
+ALTER COLUMN "activity" DROP DEFAULT;
