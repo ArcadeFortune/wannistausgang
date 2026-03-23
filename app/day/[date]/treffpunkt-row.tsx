@@ -3,13 +3,17 @@
 import { editTreffpunkt } from "@/app/actions/timetable";
 import { Treffpunkt } from "@/app/generated/prisma/client";
 import { pad } from "@/app/lib/utils";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import TreffpunktInputs from "./treffpunkt-inputs";
+import { toast } from "react-toastify";
 
 export default function TreffpunktRow({ t }: { t: Treffpunkt; }) {
   const [state, formAction] = useActionState(editTreffpunkt, { error: null });
   const [isEditing, setIsEditing] = useState(false);
 
+  useEffect(() => {
+    if (state.error) toast.error(state.error);
+  }, [state]);
   if (isEditing) return (
     <tr>
       <td colSpan={5}>
@@ -19,23 +23,6 @@ export default function TreffpunktRow({ t }: { t: Treffpunkt; }) {
           <button type="submit">Save</button>
         </form>
       </td>
-      {/* 
-      <td>
-      </td>
-
-      <td>
-        <input type="text" name="activity" form="treffpunkt-edit" defaultValue={t.activity} />
-        {t.activity}
-      </td>
-      <td>
-        <input type="text" name="responsibility" form="treffpunkt-edit" defaultValue={t.responsibility} />
-        {t.responsibility}
-      </td>
-      <td>
-        <input type="text" name="place" form="treffpunkt-edit" defaultValue={t.place} />
-        {t.place}
-      </td>
-      <td><button type="submit" form="treffpunkt-edit">is edititing</button></td> */}
     </tr>
   );
   return (

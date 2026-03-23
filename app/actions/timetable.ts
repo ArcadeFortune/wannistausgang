@@ -37,7 +37,7 @@ export async function editTreffpunkt(prevState: ServerActionResult, formData: Fo
   const isString = (i: any): i is string => typeof i === "string" && i.trim().length > 0;
 
   if (!isString(activity) || !isString(place) || !isString(responsibility)) {
-    return { error: "Incomplete Entity" };
+    return { error: "Please fill out all fields." };
   }
 
   const data = {

@@ -3,12 +3,13 @@
 import { useActionState, useEffect, useState } from "react";
 import TreffpunktInputs from "./treffpunkt-inputs";
 import { editTreffpunkt } from "@/app/actions/timetable";
+import { toast } from "react-toastify";
 
 export default function TreffpunktAdd() {
   const [isAdding, setIsAdding] = useState(false);
   const [state, formAction] = useActionState(editTreffpunkt, { error: null });
   useEffect(() => {
-    if (state.error) console.log("error");
+    if (state.error) toast.error(state.error);
   }, [state]);
   return (
     <tr>
