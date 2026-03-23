@@ -1,6 +1,7 @@
 import { getDay } from "@/app/actions/timetable";
 import TreffpunktRow from "./treffpunkt-row";
 import TreffpunktAdd from "./treffpunkt-add";
+import TreffpunktRows from "./treffpunkt-rows";
 
 export default async function Tagesbefehl({ params }: { params: Promise<{ date: string; }>; }) {
   const { date } = await params;
@@ -22,10 +23,7 @@ export default async function Tagesbefehl({ params }: { params: Promise<{ date: 
           </tr>
         </thead>
         <tbody>
-          {treffpunkte.map(t => (
-            <TreffpunktRow t={t} key={t.id} />
-          ))}
-          <TreffpunktAdd />
+          <TreffpunktRows rows={treffpunkte} />
         </tbody>
       </table>
     </>
