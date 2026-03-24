@@ -4,6 +4,7 @@ import { Treffpunkt } from "@/app/generated/prisma/client";
 import { pad } from "@/app/lib/utils";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import TreffpunktInputs from "./treffpunkt-inputs";
 
 export default function TreffpunktRows({ rows }: { rows: Treffpunkt[]; }) {
   const [isAdding, setIsAdding] = useState(false);
@@ -16,22 +17,18 @@ export default function TreffpunktRows({ rows }: { rows: Treffpunkt[]; }) {
 
   return (
     <>
-      <tr><td>test</td></tr>
       {rows.map(t => (
-        <tr>
+        <tr key={t.id}>
           {t.id === isEditing ?
-            <tr>
-              <td colSpan={5}>
-                <form action={formAction} onSubmit={() => setIsEditing(0)}>
-                  {pad(t.starttime.getHours())}{pad(t.starttime.getMinutes())}-{pad(t.endtime.getHours())}{pad(t.endtime.getMinutes())}
-                  {/* <TreffpunktInputs t={t} /> */}
-                  IS EDIITNG...
-                  <button type="submit">Save</button>
-                </form>
-              </td>
-            </tr>
+            <td colSpan={5}>
+              <form action={formAction} onSubmit={() => setIsEditing(0)}>
+                {pad(t.starttime.getHours())}{pad(t.starttime.getMinutes())}-{pad(t.endtime.getHours())}{pad(t.endtime.getMinutes())}
+                <TreffpunktInputs t={t} />
+                <button type="submit">Save</button>
+              </form>
+            </td>
             :
-            <tr >
+            <>
               <td>
                 {pad(t.starttime.getHours())}{pad(t.starttime.getMinutes())}-{pad(t.endtime.getHours())}{pad(t.endtime.getMinutes())}
               </td>
@@ -39,7 +36,8 @@ export default function TreffpunktRows({ rows }: { rows: Treffpunkt[]; }) {
               <td>{t.responsibility}</td>
               <td>{t.place}</td>
               <td><button type="button" onClick={() => setIsEditing(t.id)}>edit</button></td>
-            </tr>}
+            </>
+          }
         </tr>
       ))}
 
@@ -47,7 +45,7 @@ export default function TreffpunktRows({ rows }: { rows: Treffpunkt[]; }) {
         <td colSpan={5}>
           {isAdding && (
             <form action={formAction} onSubmit={() => setIsAdding(false)}>
-              IS ASDDING...
+              <TreffpunktInputs t={{}}/>
               <button type="submit">save</button>
             </form>
           )}
