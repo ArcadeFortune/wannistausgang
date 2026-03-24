@@ -18,6 +18,9 @@ export async function getDay(date: Date = new Date()): Promise<Treffpunkt[]> {
         // { endtime: { lte: todayEvening } },
       ],
     },
+    orderBy: {
+      starttime: "asc"
+    },
   });
 
   return treffpunkt;

@@ -1,6 +1,4 @@
 import { getDay } from "@/app/actions/timetable";
-import TreffpunktRow from "./treffpunkt-row";
-import TreffpunktAdd from "./treffpunkt-add";
 import TreffpunktRows from "./treffpunkt-rows";
 
 export default async function Tagesbefehl({ params }: { params: Promise<{ date: string; }>; }) {
